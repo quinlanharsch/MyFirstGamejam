@@ -10,8 +10,9 @@ public class Move_Character : MonoBehaviour
     Vector3 alignedUp;
     bool reorient;
     int thetaOffset; // Deg offset. Look at a unit circle. 0 to pi/2 rad is thetaOffset=0; pi/2 to pi is thetaOffset=90
-    sbyte xOffset;
-    sbyte yOffset;
+    float xOffset;
+    float yOffset;
+    Vector3 offsetVector;
 
     // Motion variables
     bool isMoving;
@@ -69,7 +70,6 @@ public class Move_Character : MonoBehaviour
                 startRotation = transform.rotation;
 
                 // Snap rotation
-                Debug.Log(alignedUp);
                 alignedUp = NearestWorldAxis(transform.up);
                 transform.rotation = Quaternion.LookRotation(Vector3.forward, alignedUp);
             }
@@ -78,24 +78,41 @@ public class Move_Character : MonoBehaviour
         {
 
             // ===== REORIENT =====
-            if (reorient) {
+            if (reorient) { // theta rotates arc. offset recenters arc segment.
                 if (alignedUp == Vector3.up)
                 {
                     thetaOffset = 0;
+                    // rotate ccw
+                    offsetVector = Quaternion.Euler(0, 0, -90) * alignedUp;
+                    xOffset = -offsetVector.x / 2;
+                    yOffset = -offsetVector.y / 2;
                 }
                 else if (alignedUp == Vector3.down)
                 {
                     thetaOffset = 180;
+                    // flip axes
+                    offsetVector = alignedUp;
+                    xOffset = -offsetVector.y / 2;
+                    yOffset = -offsetVector.x / 2;
                 }
                 else if (alignedUp == Vector3.left)
                 {
                     thetaOffset = 90;
+                    // flip axes and sign
+                    offsetVector = alignedUp;
+                    xOffset = offsetVector.y / 2;
+                    yOffset = offsetVector.x / 2;
                 }
                 else if (alignedUp == Vector3.right)
                 {
                     thetaOffset = 270;
+                    // rotate cw
+                    offsetVector = Quaternion.Euler(0, 0, 90) * alignedUp;
+                    xOffset = -offsetVector.x / 2;
+                    yOffset = -offsetVector.y / 2;
                 }
             }
+
 
             // ===== GET INPUT =====
             if (Mathf.Abs(Input.GetAxis("Vertical")) > Mathf.Abs(Input.GetAxis("Horizontal")))
