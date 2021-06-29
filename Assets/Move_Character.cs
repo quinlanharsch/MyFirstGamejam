@@ -76,6 +76,7 @@ public class Move_Character : MonoBehaviour
         }
         else // Else await input
         {
+
             // ===== REORIENT =====
             if (reorient) {
                 if (alignedUp == Vector3.up)
