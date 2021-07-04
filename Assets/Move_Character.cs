@@ -76,77 +76,183 @@ public class Move_Character : MonoBehaviour
         }
         else // Else await input
         {
-
             // ===== REORIENT =====
             if (reorient) { // theta rotates arc. offset recenters arc segment.
                 if (alignedUp == Vector3.up)
                 {
-                    thetaOffset = 0;
-                    // rotate ccw
-                    offsetVector = Quaternion.Euler(0, 0, -90) * alignedUp;
-                    xOffset = -offsetVector.x / 2;
-                    yOffset = -offsetVector.y / 2;
+                    // ===== GET INPUT =====
+                    if (Mathf.Abs(Input.GetAxis("Vertical")) > Mathf.Abs(Input.GetAxis("Horizontal")))
+                    {
+                        if (Input.GetAxis("Vertical") > 0) // UP
+                        {
+                            isMoving = true;
+                            rotateDir = 1;
+                            cwX = 1;
+                            cwY = 1;
+                            thetaOffset = 0;
+                            xOffset = -0.5f;
+                            yOffset = 0;
+                        }
+                        else if (Input.GetAxis("Vertical") < 0) // DOWN
+                        {
+                            isMoving = true;
+                            rotateDir = -1;
+                            cwX = -1;
+                            cwY = 1;
+                            thetaOffset = 0;
+                            xOffset = 0.5f;
+                            yOffset = 0;
+                        }
+                    }
+                    else // TODO currently placeholder as backwords movement, expressly state verbage at some point
+                    {
+                        if (Input.GetAxis("Horizontal") < 0) // LEFT 
+                        {
+                            isMoving = true;
+                            rotateDir = -1;
+                            cwX = 1;
+                            cwY = -1;
+                            thetaOffset = 0;
+                            xOffset = -0.5f;
+                            yOffset = 0;
+                        }
+                        else if (Input.GetAxis("Horizontal") > 0) // RIGHT
+                        {
+                            isMoving = true;
+                            rotateDir = 1;
+                            cwX = -1;
+                            cwY = -1;
+                            thetaOffset = 0;
+                            xOffset = 0.5f;
+                            yOffset = 0;
+                        }
+                    }
                 }
                 else if (alignedUp == Vector3.down)
                 {
-                    thetaOffset = 180;
-                    // flip axes
-                    offsetVector = alignedUp;
-                    xOffset = -offsetVector.y / 2;
-                    yOffset = -offsetVector.x / 2;
+                    // ===== GET INPUT =====
+                    if (Mathf.Abs(Input.GetAxis("Vertical")) > Mathf.Abs(Input.GetAxis("Horizontal")))
+                    {
+                        if (Input.GetAxis("Vertical") > 0) // UP
+                        {
+                            isMoving = true;
+                            rotateDir = 1;
+                            cwX = 1;
+                            cwY = 1;
+                        }
+                        else if (Input.GetAxis("Vertical") < 0) // DOWN
+                        {
+                            isMoving = true;
+                            rotateDir = -1;
+                            cwX = -1;
+                            cwY = 1;
+                        }
+                    }
+                    else // TODO currently placeholder as backwords movement, expressly state verbage at some point
+                    {
+                        if (Input.GetAxis("Horizontal") < 0) // LEFT 
+                        {
+                            isMoving = true;
+                            rotateDir = -1;
+                            cwX = 1;
+                            cwY = -1;
+                        }
+                        else if (Input.GetAxis("Horizontal") > 0) // RIGHT
+                        {
+                            isMoving = true;
+                            rotateDir = 1;
+                            cwX = -1;
+                            cwY = -1;
+                        }
+                    }
                 }
                 else if (alignedUp == Vector3.left)
                 {
-                    thetaOffset = 90;
-                    // flip axes and sign
-                    offsetVector = alignedUp;
-                    xOffset = offsetVector.y / 2;
-                    yOffset = offsetVector.x / 2;
+                    // ===== GET INPUT =====
+                    if (Mathf.Abs(Input.GetAxis("Vertical")) > Mathf.Abs(Input.GetAxis("Horizontal")))
+                    {
+                        if (Input.GetAxis("Vertical") > 0) // UP
+                        {
+                            isMoving = true;
+                            rotateDir = 1;
+                            cwX = 1;
+                            cwY = 1;
+                            thetaOffset = 90;
+                            xOffset = 0;
+                            yOffset = -0.5f;
+                        }
+                        else if (Input.GetAxis("Vertical") < 0) // DOWN
+                        {
+                            isMoving = true;
+                            rotateDir = -1;
+                            cwX = 1;
+                            cwY = -1;
+                            thetaOffset = 90;
+                            xOffset = 0;
+                            yOffset = 0.5f;
+                        }
+                    }
+                    else // TODO currently placeholder as backwords movement, expressly state verbage at some point
+                    {
+                        if (Input.GetAxis("Horizontal") < 0) // LEFT 
+                        {
+                            isMoving = true;
+                            rotateDir = -1;
+                            cwX = -1;
+                            cwY = 1;
+                            thetaOffset = 90;
+                            xOffset = 0;
+                            yOffset = -0.5f;
+                        }
+                        else if (Input.GetAxis("Horizontal") > 0) // RIGHT
+                        {
+                            isMoving = true;
+                            rotateDir = 1;
+                            cwX = -1;
+                            cwY = -1;
+                            thetaOffset = 90;
+                            xOffset = 0;
+                            yOffset = 0.5f;
+                        }
+                    }
                 }
                 else if (alignedUp == Vector3.right)
                 {
-                    thetaOffset = 270;
-                    // rotate cw
-                    offsetVector = Quaternion.Euler(0, 0, 90) * alignedUp;
-                    xOffset = -offsetVector.x / 2;
-                    yOffset = -offsetVector.y / 2;
-                }
-            }
-
-
-            // ===== GET INPUT =====
-            if (Mathf.Abs(Input.GetAxis("Vertical")) > Mathf.Abs(Input.GetAxis("Horizontal")))
-            {
-                if (Input.GetAxis("Vertical") > 0) // UP
-                {
-                    isMoving = true;
-                    rotateDir = 1;
-                    cwX = 1;
-                    cwY = 1;
-                }
-                else if (Input.GetAxis("Vertical") < 0) // DOWN
-                {
-                    isMoving = true;
-                    rotateDir = -1;
-                    cwX = -1;
-                    cwY = 1;
-                }
-            }
-            else // TODO currently placeholder as backwords movement, expressly state verbage at some point
-            {
-                if (Input.GetAxis("Horizontal") < 0) // LEFT 
-                {
-                    isMoving = true;
-                    rotateDir = -1;
-                    cwX = 1;
-                    cwY = -1;
-                }
-                else if (Input.GetAxis("Horizontal") > 0) // RIGHT
-                {
-                    isMoving = true;
-                    rotateDir = 1;
-                    cwX = -1;
-                    cwY = -1;
+                    // ===== GET INPUT =====
+                    if (Mathf.Abs(Input.GetAxis("Vertical")) > Mathf.Abs(Input.GetAxis("Horizontal")))
+                    {
+                        if (Input.GetAxis("Vertical") > 0) // UP
+                        {
+                            isMoving = true;
+                            rotateDir = 1;
+                            cwX = 1;
+                            cwY = 1;
+                        }
+                        else if (Input.GetAxis("Vertical") < 0) // DOWN
+                        {
+                            isMoving = true;
+                            rotateDir = -1;
+                            cwX = -1;
+                            cwY = 1;
+                        }
+                    }
+                    else // TODO currently placeholder as backwords movement, expressly state verbage at some point
+                    {
+                        if (Input.GetAxis("Horizontal") < 0) // LEFT 
+                        {
+                            isMoving = true;
+                            rotateDir = -1;
+                            cwX = 1;
+                            cwY = -1;
+                        }
+                        else if (Input.GetAxis("Horizontal") > 0) // RIGHT
+                        {
+                            isMoving = true;
+                            rotateDir = 1;
+                            cwX = -1;
+                            cwY = -1;
+                        }
+                    }
                 }
             }
         }
